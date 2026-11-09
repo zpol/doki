@@ -240,8 +240,7 @@ func (s Screen) renderRightGraphs(width int) string {
 	}
 
 	var b strings.Builder
-	b.WriteString(s.styles.Title.Render("LIVE GRAPHS") + "\n")
-	b.WriteString(s.styles.Tagline.Render("braille · btop-style") + "\n\n")
+	b.WriteString(s.styles.Title.Render("LIVE GRAPHS") + "\n\n")
 
 	b.WriteString(charts.FrameGraph(
 		"CPU",
