@@ -3,12 +3,13 @@
 [![CI](https://github.com/zpol/doki/actions/workflows/ci.yml/badge.svg)](https://github.com/zpol/doki/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/zpol/doki/actions/workflows/codeql.yml/badge.svg)](https://github.com/zpol/doki/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/zpol/doki/badge)](https://securityscorecards.dev/viewer/?uri=github.com/zpol/doki)
-[![Go Report Card](https://goreportcard.com/badge/github.com/zpol/doki)](https://goreportcard.com/report/github.com/zpol/doki)
-[![License](https://img.shields.io/github/license/zpol/doki)](LICENSE)
+[![License](https://img.shields.io/github/license/zpol/doki?color=blue)](LICENSE)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/zpol/doki)](go.mod)
+[![Go Reference](https://pkg.go.dev/badge/github.com/zpol/doki.svg)](https://pkg.go.dev/github.com/zpol/doki)
 [![Release](https://img.shields.io/github/v/release/zpol/doki?include_prereleases&sort=semver)](https://github.com/zpol/doki/releases)
 [![Issues](https://img.shields.io/github/issues/zpol/doki)](https://github.com/zpol/doki/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![No Telemetry](https://img.shields.io/badge/telemetry-none-success.svg)](SECURITY.md)
 
 ```text
 ◈ DOKI — Docker Operations Cockpit
