@@ -16,6 +16,10 @@
 Your Containers. One Terminal. Total Control.
 ```
 
+<p align="center">
+  <img src="docs/img/doki-demo.gif" alt="DOKI dashboard demo — live Docker stats, braille graphs, and keyboard-driven ops" width="900">
+</p>
+
 **DOKI** is an open-source, terminal-native Docker operations cockpit written in Go.
 It connects to a **real Docker Engine** and provides keyboard-driven container
 management with a visually rich, K9s/btop-inspired interface.
