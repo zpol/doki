@@ -92,7 +92,7 @@ func (s Screen) View() string {
 	}
 
 	left := s.renderLeft(leftW)
-	body := left
+	var body string
 	if useSplit {
 		body = charts.JoinHorizontal(left, s.renderRightGraphs(rightW), 2, leftW)
 	} else {
@@ -130,12 +130,12 @@ func (s Screen) renderLeft(width int) string {
 	b.WriteString(s.styles.Title.Render("DASHBOARD") + "\n")
 	b.WriteString(s.styles.Tagline.Render("Container-aggregated · not host CPU/RAM") + "\n\n")
 
-	b.WriteString(fmt.Sprintf("%s %s  %s %s  %s %s  %s %s\n\n",
+	_, _ = fmt.Fprintf(&b, "%s %s  %s %s  %s %s  %s %s\n\n",
 		s.styles.Tagline.Render("Run"), s.styles.StatusOK.Render(fmt.Sprintf("%d", running)),
 		s.styles.Tagline.Render("Stop"), s.styles.StatusMuted.Render(fmt.Sprintf("%d", stopped)),
 		s.styles.Tagline.Render("Pause"), s.styles.StatusWarn.Render(fmt.Sprintf("%d", paused)),
 		s.styles.Tagline.Render("Sick"), s.styles.StatusErr.Render(fmt.Sprintf("%d", unhealthy)),
-	))
+	)
 
 	barW := 14
 	if width > 50 {
@@ -147,28 +147,28 @@ func (s Screen) renderLeft(width int) string {
 	}
 
 	b.WriteString(s.styles.TableHeader.Render("NOW") + "\n")
-	b.WriteString(fmt.Sprintf("%s %s %5.1f%%\n",
+	_, _ = fmt.Fprintf(&b, "%s %s %5.1f%%\n",
 		fg(th.Primary, "CPU"),
 		fg(th.Primary, charts.Bar(clampPct(s.agg.CPUPercent), barW)),
 		s.agg.CPUPercent,
-	))
-	b.WriteString(fmt.Sprintf("%s %s %5.1f%%  %s\n",
+	)
+	_, _ = fmt.Fprintf(&b, "%s %s %5.1f%%  %s\n",
 		fg(th.Purple, "MEM"),
 		fg(th.Purple, charts.Bar(memPct, barW)),
 		memPct,
 		charts.FormatBytes(s.agg.MemoryUsage),
-	))
-	b.WriteString(fmt.Sprintf("%s RX %s   TX %s\n",
+	)
+	_, _ = fmt.Fprintf(&b, "%s RX %s   TX %s\n",
 		fg(th.Success, "NET"),
 		charts.FormatBytes(s.agg.NetRx),
 		charts.FormatBytes(s.agg.NetTx),
-	))
-	b.WriteString(fmt.Sprintf("%s R  %s   W  %s\n",
+	)
+	_, _ = fmt.Fprintf(&b, "%s R  %s   W  %s\n",
 		fg(th.Warning, "IO "),
 		charts.FormatBytes(s.agg.BlockRead),
 		charts.FormatBytes(s.agg.BlockWrite),
-	))
-	b.WriteString(fmt.Sprintf("PIDS %d  across %d sampled\n\n", s.agg.PIDs, s.agg.Samples))
+	)
+	_, _ = fmt.Fprintf(&b, "PIDS %d  across %d sampled\n\n", s.agg.PIDs, s.agg.Samples)
 
 	topCPU := append([]models.ContainerStats(nil), s.stats...)
 	sort.Slice(topCPU, func(i, j int) bool { return topCPU[i].CPUPercent > topCPU[j].CPUPercent })
@@ -186,11 +186,11 @@ func (s Screen) renderLeft(width int) string {
 		b.WriteString(s.styles.StatusMuted.Render("No live stats yet.") + "\n")
 	} else {
 		for _, st := range topCPU {
-			b.WriteString(fmt.Sprintf("%-16s %5.1f%% %s\n",
+			_, _ = fmt.Fprintf(&b, "%-16s %5.1f%% %s\n",
 				truncate(statName(st), 16),
 				st.CPUPercent,
 				fg(th.Primary, charts.Bar(clampPct(st.CPUPercent), 10)),
-			))
+			)
 		}
 	}
 
@@ -199,11 +199,11 @@ func (s Screen) renderLeft(width int) string {
 		b.WriteString(s.styles.StatusMuted.Render("No live stats yet.") + "\n")
 	} else {
 		for _, st := range topMem {
-			b.WriteString(fmt.Sprintf("%-16s %8s %s\n",
+			_, _ = fmt.Fprintf(&b, "%-16s %8s %s\n",
 				truncate(statName(st), 16),
 				charts.FormatBytes(st.MemoryUsage),
 				fg(th.Purple, charts.Bar(st.MemoryPercentOrZero(), 10)),
-			))
+			)
 		}
 	}
 
@@ -216,10 +216,10 @@ func (s Screen) renderLeft(width int) string {
 			start = len(s.events) - 5
 		}
 		for _, ev := range s.events[start:] {
-			b.WriteString(fmt.Sprintf("%s %s\n",
+			_, _ = fmt.Fprintf(&b, "%s %s\n",
 				s.styles.Tagline.Render(ev.Time.Local().Format("15:04:05")),
 				truncate(ev.Message, max(12, width-10)),
-			))
+			)
 		}
 	}
 	return strings.TrimRight(b.String(), "\n")

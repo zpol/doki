@@ -43,7 +43,7 @@ func newDoctorCmd() *cobra.Command {
 				fmt.Printf("Docker client: FAIL (%v)\n", err)
 				return nil
 			}
-			defer cli.Close()
+			defer func() { _ = cli.Close() }()
 
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()

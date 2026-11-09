@@ -113,16 +113,15 @@ func TestMapInspectPortsFromNetworkSettings(t *testing.T) {
 				"443/tcp": {},
 			},
 		},
-		NetworkSettings: &container.NetworkSettings{
-			NetworkSettingsBase: container.NetworkSettingsBase{
-				Ports: nat.PortMap{
-					"80/tcp": []nat.PortBinding{
-						{HostIP: "0.0.0.0", HostPort: "8080"},
-					},
-					"443/tcp": nil,
-				},
-			},
+		NetworkSettings: &container.NetworkSettings{},
+	}
+	// Ports still lives on the embedded base in API v28; assign after construct
+	// to avoid naming the deprecated NetworkSettingsBase type in a literal.
+	raw.NetworkSettings.Ports = nat.PortMap{
+		"80/tcp": []nat.PortBinding{
+			{HostIP: "0.0.0.0", HostPort: "8080"},
 		},
+		"443/tcp": nil,
 	}
 	got := mapInspect(raw)
 	if len(got.Ports) < 2 {

@@ -16,7 +16,6 @@ type Screen struct {
 	styles   themes.Styles
 	findings []models.Finding
 	cursor   int
-	offset   int
 	width    int
 	height   int
 	status   string

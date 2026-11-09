@@ -40,7 +40,7 @@ func (s *Service) Stream(ctx context.Context, id string, opts ports.LogOptions) 
 	go func() {
 		defer close(lines)
 		defer close(errs)
-		defer rc.Close()
+		defer func() { _ = rc.Close() }()
 		defer cancel()
 
 		stdoutR, stdoutW := io.Pipe()

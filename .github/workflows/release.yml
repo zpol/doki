@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Resolve version
+        id: ver
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build binaries
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+          COMMIT: ${{ github.sha }}
+        run: |
+          mkdir -p dist
+          LDFLAGS="-s -w -X github.com/zpol/doki/internal/version.Version=${VERSION} -X github.com/zpol/doki/internal/version.Commit=${COMMIT:0:7} -X github.com/zpol/doki/internal/version.BuildDate=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for pair in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
+            GOOS="${pair%/*}"
+            GOARCH="${pair#*/}"
+            out="dist/doki_${VERSION}_${GOOS}_${GOARCH}"
+            echo "building ${out}"
+            GOOS="$GOOS" GOARCH="$GOARCH" CGO_ENABLED=0 go build -ldflags "$LDFLAGS" -o "$out" ./cmd/doki
+            tar -C dist -czf "${out}.tar.gz" "$(basename "$out")"
+            rm -f "$out"
+          done
+          (cd dist && sha256sum *.tar.gz > checksums.txt)
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: DOKI ${{ steps.ver.outputs.version }}
+          generate_release_notes: true
+          body: |
+            ## DOKI ${{ steps.ver.outputs.version }}
+
+            Terminal-native Docker Operations Cockpit.
+
+            ### Highlights
+            - Real Docker Engine SDK TUI (containers, images, volumes, networks)
+            - Dashboard with braille graphs, logs, shell, security & diagnostics
+            - Bulk mark actions, inspect details, command palette
+            - CI: tests, lint, govulncheck, CodeQL, OpenSSF Scorecard
+
+            ### Install
+            Download the archive for your OS/arch below, extract, and run `./doki`.
+
+            ```bash
+            ./doki doctor
+            ./doki
+            ```
+          files: |
+            dist/*.tar.gz
+            dist/checksums.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

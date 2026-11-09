@@ -98,11 +98,7 @@ func Load() (Config, error) {
 		cfg.Refresh.Containers = d
 	}
 	cfg.Display = raw.Display
+	// YAML zeros overwrite defaults when the confirmations block is present.
 	cfg.Confirm = raw.Confirm
-	if !raw.Confirm.DestructiveActions && !raw.Confirm.RemoteActions {
-		// Keep defaults when the confirmations block is entirely omitted/zero.
-		// Explicit false values are preserved when at least one key was meaningful;
-		// for simplicity we only override when YAML provided the section.
-	}
 	return cfg, nil
 }

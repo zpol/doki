@@ -17,7 +17,7 @@ func (c *Client) ContainerStats(ctx context.Context, id string) (models.Containe
 	if err != nil {
 		return models.ContainerStats{}, fmt.Errorf("container stats %s: %w", id, err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	var raw container.StatsResponse
 	if err := json.NewDecoder(resp.Body).Decode(&raw); err != nil {

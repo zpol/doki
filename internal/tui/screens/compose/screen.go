@@ -127,7 +127,7 @@ func (s Screen) View() string {
 			p := s.projects[s.cursor]
 			b.WriteString("\n" + s.styles.TableHeader.Render("CONTAINERS IN "+p.Name) + "\n")
 			for _, c := range p.Containers {
-				b.WriteString(fmt.Sprintf("  %-16s %-10s %s\n", trunc(c.Name, 16), strings.ToUpper(string(c.Status)), trunc(c.Image, 28)))
+				_, _ = fmt.Fprintf(&b, "  %-16s %-10s %s\n", trunc(c.Name, 16), strings.ToUpper(string(c.Status)), trunc(c.Image, 28))
 			}
 		}
 	}

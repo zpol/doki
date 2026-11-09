@@ -1284,7 +1284,7 @@ func (m Model) renderHelp() string {
 	b.WriteString("  Tab / Shift+Tab  Cycle views\n  :                 Command palette\n  j/k               Move\n\n")
 	b.WriteString(m.styles.Brand.Render("Containers") + "\n")
 	for _, item := range m.keys.Containers {
-		b.WriteString(fmt.Sprintf("  %-10s %s\n", item.Keys, item.Help))
+		_, _ = fmt.Fprintf(&b, "  %-10s %s\n", item.Keys, item.Help)
 	}
 	b.WriteString("\n  space marks for bulk start/stop/restart/remove; A marks all, U/esc clears\n\n")
 	b.WriteString(m.styles.Help.Render("[esc] Close help"))

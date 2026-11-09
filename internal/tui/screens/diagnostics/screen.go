@@ -91,7 +91,7 @@ func (s Screen) View() string {
 			if len(f.SuggestedNextSteps) > 0 {
 				b.WriteString("\nNext steps:\n")
 				for i, step := range f.SuggestedNextSteps {
-					b.WriteString(fmt.Sprintf("  %d. %s\n", i+1, step))
+					_, _ = fmt.Fprintf(&b, "  %d. %s\n", i+1, step)
 				}
 			}
 		}

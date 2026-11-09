@@ -53,7 +53,7 @@ container management with a btop-inspired visual interface.`,
 			if err != nil {
 				return fmt.Errorf("docker client: %w", err)
 			}
-			defer dockerClient.Close()
+			defer func() { _ = dockerClient.Close() }()
 
 			deps := tuiapp.Dependencies{
 				Containers:  containersvc.New(dockerClient),
@@ -86,7 +86,7 @@ func newVersionCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print version information",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprintln(os.Stdout, "doki", version.String())
+			_, _ = fmt.Fprintln(os.Stdout, "doki", version.String())
 		},
 	}
 }

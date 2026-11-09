@@ -2,7 +2,7 @@
 package version
 
 // Version is the semantic version of the binary. Overridden at link time.
-var Version = "0.1.0-dev"
+var Version = "0.4.0-dev"
 
 // Commit is the git commit SHA. Overridden at link time.
 var Commit = "unknown"

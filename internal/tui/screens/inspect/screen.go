@@ -217,10 +217,10 @@ func (s Screen) renderDetails() string {
 				proto = "tcp"
 			}
 			if p.PublicPort == 0 {
-				b.WriteString(fmt.Sprintf("  %d/%s (exposed, not published)\n", p.PrivatePort, proto))
+				_, _ = fmt.Fprintf(&b, "  %d/%s (exposed, not published)\n", p.PrivatePort, proto)
 				continue
 			}
-			b.WriteString(fmt.Sprintf("  %s:%d -> %d/%s\n", empty(p.IP, "0.0.0.0"), p.PublicPort, p.PrivatePort, proto))
+			_, _ = fmt.Fprintf(&b, "  %s:%d -> %d/%s\n", empty(p.IP, "0.0.0.0"), p.PublicPort, p.PrivatePort, proto)
 		}
 	}
 
@@ -233,7 +233,7 @@ func (s Screen) renderDetails() string {
 			if m.RW {
 				rw = "rw"
 			}
-			b.WriteString(fmt.Sprintf("  [%s] %s -> %s (%s)\n", m.Type, m.Source, m.Destination, rw))
+			_, _ = fmt.Fprintf(&b, "  [%s] %s -> %s (%s)\n", m.Type, m.Source, m.Destination, rw)
 		}
 	}
 
@@ -242,7 +242,7 @@ func (s Screen) renderDetails() string {
 		b.WriteString(s.styles.StatusMuted.Render("(none)") + "\n")
 	} else {
 		for _, n := range d.Networks {
-			b.WriteString(fmt.Sprintf("  %s  ip=%s  gw=%s\n", n.NetworkName, empty(n.IPAddress, "-"), empty(n.Gateway, "-")))
+			_, _ = fmt.Fprintf(&b, "  %s  ip=%s  gw=%s\n", n.NetworkName, empty(n.IPAddress, "-"), empty(n.Gateway, "-"))
 		}
 	}
 
@@ -274,32 +274,32 @@ func (s Screen) renderResourceMeters() string {
 	}
 
 	barW := 16
-	b.WriteString(fmt.Sprintf("%s %s %5.1f%%\n",
+	_, _ = fmt.Fprintf(&b, "%s %s %5.1f%%\n",
 		lipgloss.NewStyle().Foreground(th.Primary).Render("CPU"),
 		lipgloss.NewStyle().Foreground(th.Primary).Render(charts.Bar(s.stats.CPUPercent, barW)),
 		s.stats.CPUPercent,
-	))
-	b.WriteString(fmt.Sprintf("%s %s %5.1f%%  %s",
+	)
+	_, _ = fmt.Fprintf(&b, "%s %s %5.1f%%  %s",
 		lipgloss.NewStyle().Foreground(th.Purple).Render("MEM"),
 		lipgloss.NewStyle().Foreground(th.Purple).Render(charts.Bar(s.stats.MemoryPercentOrZero(), barW)),
 		s.stats.MemoryPercentOrZero(),
 		charts.FormatBytes(s.stats.MemoryUsage),
-	))
+	)
 	if s.stats.MemoryLimit > 0 {
 		b.WriteString(" / " + charts.FormatBytes(s.stats.MemoryLimit))
 	}
 	b.WriteString("\n")
-	b.WriteString(fmt.Sprintf("%s RX %s  TX %s\n",
+	_, _ = fmt.Fprintf(&b, "%s RX %s  TX %s\n",
 		lipgloss.NewStyle().Foreground(th.Success).Render("NET"),
 		charts.FormatBytes(s.stats.NetRx),
 		charts.FormatBytes(s.stats.NetTx),
-	))
-	b.WriteString(fmt.Sprintf("%s R  %s  W  %s\n",
+	)
+	_, _ = fmt.Fprintf(&b, "%s R  %s  W  %s\n",
 		lipgloss.NewStyle().Foreground(th.Warning).Render("DISK"),
 		charts.FormatBytes(s.stats.BlockRead),
 		charts.FormatBytes(s.stats.BlockWrite),
-	))
-	b.WriteString(fmt.Sprintf("PIDS %d\n", s.stats.PIDs))
+	)
+	_, _ = fmt.Fprintf(&b, "PIDS %d\n", s.stats.PIDs)
 	return b.String()
 }
 
