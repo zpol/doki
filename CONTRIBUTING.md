@@ -5,7 +5,7 @@ Thanks for contributing. By participating you agree to follow the
 
 ## Development setup
 
-1. Install Go matching `go.mod` (currently **1.27+**).
+1. Install Go matching `go.mod` (currently **1.27.3+**).
 2. Ensure Docker Engine is available for manual testing.
 3. Run:
 

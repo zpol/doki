@@ -67,7 +67,7 @@ Implemented through **Milestones 1–3** plus Compose label discovery:
 
 ## Requirements
 
-- Go **1.27+** (see `go.mod`)
+- Go **1.27.3+** (see `go.mod`)
 - Docker Engine reachable locally or via `DOCKER_HOST`
 
 ## Install / Build

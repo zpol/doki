@@ -1,0 +1,9 @@
+# Allowlisted OSV IDs for govulncheck (scripts/govulncheck.sh).
+# Only daemon-side Docker AuthZ/plugin issues with no fixed release on the
+# github.com/docker/docker v28 client module path. Revisit when a fixed
+# v28+/v29 client ships, or when migrating to github.com/moby/moby/v2.
+#
+# Format: GO-ID<space># reason
+
+GO-2026-4887 # CVE-2026-34040 AuthZ plugin bypass (daemon); Fixed: N/A on docker/docker@v28
+GO-2026-4883 # CVE-2026-33997 plugin privilege off-by-one (daemon); Fixed: N/A on docker/docker@v28

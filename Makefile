@@ -8,7 +8,7 @@ LDFLAGS=-s -w \
 	-X github.com/zpol/doki/internal/version.Commit=$(COMMIT) \
 	-X github.com/zpol/doki/internal/version.BuildDate=$(BUILD_DATE)
 
-.PHONY: build test race vet fmt tidy run doctor clean
+.PHONY: build test race vet fmt tidy vuln run doctor clean
 
 build:
 	go build -ldflags "$(LDFLAGS)" -o bin/$(APP) $(PKG)
@@ -27,6 +27,9 @@ fmt:
 
 tidy:
 	go mod tidy
+
+vuln:
+	./scripts/govulncheck.sh
 
 run: build
 	./bin/$(APP)

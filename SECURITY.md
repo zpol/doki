@@ -26,6 +26,8 @@ Please allow a reasonable window for triage before public disclosure.
 - Secret-safe defaults for environment display
 - Terminal escape sanitization for log output
 - Continuous checks: CI tests, `govulncheck`, CodeQL, OpenSSF Scorecard
+- Known unfixed `github.com/docker/docker` AuthZ/plugin CVEs (daemon-side) are
+  tracked in `.govulncheck-allowlist` until a fixed client release is available
 
 ## Security Inspector disclaimer
 
