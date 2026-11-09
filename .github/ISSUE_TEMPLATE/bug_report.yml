@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a defect in DOKI
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve DOKI. Please include enough detail to reproduce the issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands/keys that trigger the bug.
+      placeholder: |
+        1. Run `doki`
+        2. Press …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: DOKI version
+      description: Output of `doki --version`
+      placeholder: 0.1.0-dev …
+    validations:
+      required: true
+  - type: input
+    id: docker
+    attributes:
+      label: Docker Engine version
+      description: Output of `docker version --format '{{.Server.Version}}'`
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, terminal emulator, theme, DOCKER_HOST if relevant.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues first
+          required: true
+        - label: This report does not include secrets or private host details
+          required: true

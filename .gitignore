@@ -1,0 +1,29 @@
+# Local agent / planning notes
+Agents.md
+Plan.md
+Task.md
+Execution.md
+Results.md
+Reflection.md
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+bin/
+dist/
+*.exe
+*.test
+*.out
+coverage.out
+coverage.html
+debug.log
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~

@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose an improvement for DOKI
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What operational pain does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How should DOKI behave?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope fit
+      options:
+        - label: This stays terminal-native and talks to a real Docker Engine
+          required: true
+        - label: This does not require fabricated metrics or fake demo data as the default path
+          required: true
